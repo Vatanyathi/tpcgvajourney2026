@@ -101,9 +101,9 @@ const ROLE_LABEL = {
 ========================================================================= */
 
 const SEED_ROSTER = [
-  { id: "master1", firstName: "Master", lastName: "Admin01", username: "Master01", password: "cnb2026x", role: "master_admin", bu: null, buList: null, employeeId: "TH00-24000" },
-  { id: "master2", firstName: "Master", lastName: "Admin02", username: "Master02", password: "cnb2026x", role: "master_admin", bu: null, buList: null, employeeId: "TH00-24001" },
-  { id: "master3", firstName: "Master", lastName: "Admin03", username: "Master03", password: "cnb2026x", role: "master_admin", bu: null, buList: null, employeeId: "TH00-24002" },
+  { id: "master1", firstName: "Master", lastName: "Admin01", username: "Master01", password: "cnb2026", role: "master_admin", bu: null, buList: null, employeeId: "TH00-24000" },
+  { id: "master2", firstName: "Master", lastName: "Admin02", username: "Master02", password: "cnb2026", role: "master_admin", bu: null, buList: null, employeeId: "TH00-24001" },
+  { id: "master3", firstName: "Master", lastName: "Admin03", username: "Master03", password: "cnb2026", role: "master_admin", bu: null, buList: null, employeeId: "TH00-24002" },
 
   // P&O — same coverage as before: Punjamaporn on UTSE alone, Charinee across three
   { id: "po-punjamaorn", firstName: "Punjamaporn", lastName: "Srisuwan", username: "Punjamapornsri", password: "testonly", role: "po_admin", bu: "UTSE", buList: null, employeeId: "TH00-25001" },

@@ -32,8 +32,11 @@ export default async function handler(req, res) {
   if (req.method !== "POST") {
     return res.status(405).json({ error: "Method not allowed" });
   }
-  if (process.env.API_SECRET) {
-    if (req.headers["x-api-secret"] !== process.env.API_SECRET) {
+
+  const expectedSecret = process.env.API_SECRET;
+  if (expectedSecret) {
+    const providedSecret = req.headers["x-api-secret"];
+    if (providedSecret !== expectedSecret) {
       return res.status(401).json({ error: "Unauthorized" });
     }
   }

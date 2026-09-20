@@ -38,9 +38,10 @@ export default async function handler(req, res) {
     return;
   }
 
-  if (process.env.API_SECRET) {
+  const expectedSecret = process.env.API_SECRET;
+  if (expectedSecret) {
     const provided = req.headers["x-api-secret"];
-    if (provided !== process.env.API_SECRET) {
+    if (provided !== expectedSecret) {
       res.status(401).json({ error: "Unauthorized" });
       return;
     }
