@@ -1,10 +1,12 @@
-# TPC Growth & Value-Add Journey — v1.02 deployable build
+# TPC Growth & Value-Add Journey — v1.02c deployable build
 
-This is a synced copy of everything built through v1.02 in the Claude
+This is a synced copy of everything built through v1.02c in the Claude
 session — the Track A/B content rewrite matching your Thai reference
-document, the redesigned growth-stage selector, and every text/UX fix
-from that whole process — wired to a real backend so anyone with the
-link can use it, no Claude account needed.
+document, the redesigned growth-stage selector, the manager-question
+bolding/styling fixes, the two-line stage-table labels, and the
+Username1-13 test roster (plus Punjamaporn/Charinee as P&O Admins) —
+wired to a real backend so anyone with the link can use it, no Claude
+account needed.
 
 ## How this works
 

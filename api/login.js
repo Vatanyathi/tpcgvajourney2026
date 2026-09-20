@@ -6,12 +6,27 @@
 import { Redis } from "@upstash/redis";
 import { verifyPassword, hashPassword, looksHashed } from "../lib/hash.js";
 
-const redis = new Redis({
-  url: process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL,
-  token: process.env.KV_REST_API_TOKEN || process.env.UPSTASH_REDIS_REST_TOKEN,
-});
+const REDIS_URL =
+  process.env.KV_REST_API_URL ||
+  process.env.UPSTASH_REDIS_REST_URL ||
+  process.env.REDIS_REST_API_URL ||
+  process.env.STORAGE_KV_REST_API_URL;
+const REDIS_TOKEN =
+  process.env.KV_REST_API_TOKEN ||
+  process.env.UPSTASH_REDIS_REST_TOKEN ||
+  process.env.REDIS_REST_API_TOKEN ||
+  process.env.STORAGE_KV_REST_API_TOKEN;
 
-const ROSTER_KEY = "gva-roster-v7";
+const redis = REDIS_URL && REDIS_TOKEN ? new Redis({ url: REDIS_URL, token: REDIS_TOKEN }) : null;
+
+// Names only, never values — safe to return in an error response and tells
+// us immediately which env var Vercel actually injected, instead of
+// guessing blind through another deploy-and-check cycle.
+function envDiagnostics() {
+  return Object.keys(process.env).filter((k) => /REDIS|KV_|UPSTASH/i.test(k));
+}
+
+const ROSTER_KEY = "gva-roster-v10";
 
 export default async function handler(req, res) {
   if (req.method !== "POST") {
@@ -28,13 +43,33 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: "Username and password required" });
   }
 
-  try {
-    const raw = await redis.get(ROSTER_KEY);
-    const roster = raw ? JSON.parse(typeof raw === "string" ? raw : JSON.stringify(raw)) : null;
-    if (!roster || !Array.isArray(roster)) {
-      return res.status(503).json({ error: "Roster not seeded yet" });
-    }
+  if (!redis) {
+    return res.status(500).json({
+      error: "Redis is not configured — no URL/token env var matched.",
+      envVarsFound: envDiagnostics(),
+    });
+  }
 
+  let raw;
+  try {
+    raw = await redis.get(ROSTER_KEY);
+  } catch (err) {
+    console.error("redis.get failed", err);
+    return res.status(500).json({ error: "Could not reach Redis.", detail: String(err?.message || err) });
+  }
+
+  let roster;
+  try {
+    roster = raw ? JSON.parse(typeof raw === "string" ? raw : JSON.stringify(raw)) : null;
+  } catch (err) {
+    console.error("roster JSON parse failed", err);
+    return res.status(500).json({ error: "Roster data is corrupted.", detail: String(err?.message || err) });
+  }
+  if (!roster || !Array.isArray(roster)) {
+    return res.status(503).json({ error: "Roster not seeded yet" });
+  }
+
+  try {
     const idx = roster.findIndex((p) => (p.username || "").toLowerCase() === String(username).trim().toLowerCase());
     if (idx < 0) {
       return res.status(401).json({ error: "Invalid username or password" });
@@ -64,6 +99,6 @@ export default async function handler(req, res) {
     return res.status(200).json({ user: safePerson });
   } catch (err) {
     console.error("login handler error", err);
-    return res.status(500).json({ error: "Login failed" });
+    return res.status(500).json({ error: "Login failed", detail: String(err?.message || err) });
   }
 }

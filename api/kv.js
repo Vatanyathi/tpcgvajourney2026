@@ -7,10 +7,22 @@
 
 import { Redis } from "@upstash/redis";
 
-const redis = new Redis({
-  url: process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL,
-  token: process.env.KV_REST_API_TOKEN || process.env.UPSTASH_REDIS_REST_TOKEN,
-});
+const REDIS_URL =
+  process.env.KV_REST_API_URL ||
+  process.env.UPSTASH_REDIS_REST_URL ||
+  process.env.REDIS_REST_API_URL ||
+  process.env.STORAGE_KV_REST_API_URL;
+const REDIS_TOKEN =
+  process.env.KV_REST_API_TOKEN ||
+  process.env.UPSTASH_REDIS_REST_TOKEN ||
+  process.env.REDIS_REST_API_TOKEN ||
+  process.env.STORAGE_KV_REST_API_TOKEN;
+
+const redis = REDIS_URL && REDIS_TOKEN ? new Redis({ url: REDIS_URL, token: REDIS_TOKEN }) : null;
+
+function envDiagnostics() {
+  return Object.keys(process.env).filter((k) => /REDIS|KV_|UPSTASH/i.test(k));
+}
 
 // NOTE ON SECURITY: this endpoint currently only checks a single shared
 // secret (API_SECRET), not who the caller actually is. That's enough to
@@ -32,6 +44,13 @@ export default async function handler(req, res) {
       res.status(401).json({ error: "Unauthorized" });
       return;
     }
+  }
+
+  if (!redis) {
+    return res.status(500).json({
+      error: "Redis is not configured — no URL/token env var matched.",
+      envVarsFound: envDiagnostics(),
+    });
   }
 
   const { op, key, value, prefix } = req.body || {};
@@ -64,6 +83,6 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: `Unknown op: ${op}` });
   } catch (err) {
     console.error("kv handler error", err);
-    return res.status(500).json({ error: "Storage operation failed" });
+    return res.status(500).json({ error: "Storage operation failed", detail: String(err?.message || err) });
   }
 }

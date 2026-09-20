@@ -101,9 +101,40 @@ const ROLE_LABEL = {
 ========================================================================= */
 
 const SEED_ROSTER = [
-  { id: "master1", firstName: "Master", lastName: "Admin01", username: "Master01", password: "cnb2026", role: "master_admin", bu: null, buList: null, employeeId: "TH00-24000" },
-  { id: "master2", firstName: "Master", lastName: "Admin02", username: "Master02", password: "cnb2026", role: "master_admin", bu: null, buList: null, employeeId: "TH00-24001" },
-  { id: "master3", firstName: "Master", lastName: "Admin03", username: "Master03", password: "cnb2026", role: "master_admin", bu: null, buList: null, employeeId: "TH00-24002" },
+  { id: "master1", firstName: "Master", lastName: "Admin01", username: "Master01", password: "cnb2026x", role: "master_admin", bu: null, buList: null, employeeId: "TH00-24000" },
+  { id: "master2", firstName: "Master", lastName: "Admin02", username: "Master02", password: "cnb2026x", role: "master_admin", bu: null, buList: null, employeeId: "TH00-24001" },
+  { id: "master3", firstName: "Master", lastName: "Admin03", username: "Master03", password: "cnb2026x", role: "master_admin", bu: null, buList: null, employeeId: "TH00-24002" },
+
+  // P&O — same coverage as before: Punjamaporn on UTSE alone, Charinee across three
+  { id: "po-punjamaorn", firstName: "Punjamaporn", lastName: "Srisuwan", username: "Punjamapornsri", password: "testonly", role: "po_admin", bu: "UTSE", buList: null, employeeId: "TH00-25001" },
+  { id: "po-charinee", firstName: "Charinee", lastName: "Hemarajata", username: "Charineehem", password: "testonly", role: "po_admin", bu: null, buList: ["UTLC", "UTWC", "UTCT"], employeeId: "TH00-25002" },
+
+  // UTSE — covers Pattern C (Username1), B (Username2), A (Username3/4/5),
+  // D (Username6). Username5 is pre-assigned as the delegate on Username4's
+  // review, so the delegate flow is testable immediately. Username3 has
+  // Username13 (TPCTH) as a functional manager, to test the matrix-reporting
+  // case too.
+  { id: "utse-sr", firstName: "Username", lastName: "1", username: "Username1", password: "testonly", role: "staff", bu: "UTSE", department: "Operations", jobGrade: "JG8", designation: "Senior Director", managerId: null, employeeId: "TH08-25001", needsEvaluation: false },
+  { id: "utse-mgr", firstName: "Username", lastName: "2", username: "Username2", password: "testonly", role: "staff", bu: "UTSE", department: "Operations", jobGrade: "M2", designation: "Operations Manager", managerId: "utse-sr", employeeId: "TH08-25002" },
+  { id: "utse-e1", firstName: "Username", lastName: "3", username: "Username3", password: "testonly", role: "staff", bu: "UTSE", department: "Operations", jobGrade: "S2", designation: "Frontline Officer", managerId: "utse-mgr", employeeId: "TH08-25003", functionalManagerId: "tpcg-fm1" },
+  { id: "utse-e2", firstName: "Username", lastName: "4", username: "Username4", password: "testonly", role: "staff", bu: "UTSE", department: "Operations", jobGrade: "S1", designation: "Frontline Officer", managerId: "utse-mgr", employeeId: "TH08-25004", reviewDelegateId: "utse-e3" },
+  { id: "utse-e3", firstName: "Username", lastName: "5", username: "Username5", password: "testonly", role: "staff", bu: "UTSE", department: "Operations", jobGrade: "S3", designation: "Senior Officer", managerId: "utse-mgr", employeeId: "TH08-25005" },
+  { id: "utse-dh", firstName: "Username", lastName: "6", username: "Username6", password: "testonly", role: "staff", bu: "UTSE", department: "Operations", jobGrade: "JG7", designation: "Principal Advisor", managerId: "utse-sr", employeeId: "TH08-25006", needsEvaluation: false },
+
+  // UTLC — Pattern B (Username7) + A (Username8), for Charinee's scope
+  { id: "utlc-mgr", firstName: "Username", lastName: "7", username: "Username7", password: "testonly", role: "staff", bu: "UTLC", department: "Operations", jobGrade: "M2", designation: "Operations Manager", managerId: null, employeeId: "TH09-25001" },
+  { id: "utlc-e1", firstName: "Username", lastName: "8", username: "Username8", password: "testonly", role: "staff", bu: "UTLC", department: "Operations", jobGrade: "S2", designation: "Frontline Officer", managerId: "utlc-mgr", employeeId: "TH09-25002" },
+
+  // UTWC — Pattern B (Username9) + A (Username10), for Charinee's scope
+  { id: "utwc-mgr", firstName: "Username", lastName: "9", username: "Username9", password: "testonly", role: "staff", bu: "UTWC", department: "Operations", jobGrade: "M2", designation: "Operations Manager", managerId: null, employeeId: "TH10-25001" },
+  { id: "utwc-e1", firstName: "Username", lastName: "10", username: "Username10", password: "testonly", role: "staff", bu: "UTWC", department: "Operations", jobGrade: "S2", designation: "Frontline Officer", managerId: "utwc-mgr", employeeId: "TH10-25002" },
+
+  // UTCT — Pattern B (Username11) + A (Username12), for Charinee's scope
+  { id: "utsc-mgr", firstName: "Username", lastName: "11", username: "Username11", password: "testonly", role: "staff", bu: "UTCT", department: "Operations", jobGrade: "M2", designation: "Operations Manager", managerId: null, employeeId: "TH11-25001" },
+  { id: "utsc-e1", firstName: "Username", lastName: "12", username: "Username12", password: "testonly", role: "staff", bu: "UTCT", department: "Operations", jobGrade: "S2", designation: "Frontline Officer", managerId: "utsc-mgr", employeeId: "TH11-25002" },
+
+  // TPC Group (Thailand) Limited — Username3's functional manager (matrix-reporting test)
+  { id: "tpcg-fm1", firstName: "Username", lastName: "13", username: "Username13", password: "testonly", role: "staff", bu: "TPCTH", department: "Group Operations", jobGrade: "JG9", designation: "Group Functional Director", managerId: null, employeeId: "TPCTH-25001", needsEvaluation: false },
 ];
 
 function hasReports(personId, roster) {
@@ -122,8 +153,8 @@ function adminBUs(person) {
   return [];
 }
 
-const ROSTER_KEY = "gva-roster-v7"; // bumped: v1.02 clean-slate reset — roster down to Master01-03 only, ready for the real Excel upload
-const LOG_KEY = "gva-export-log-v2"; // bumped alongside the v1.02 reset — old activity log referenced test users that no longer exist
+const ROSTER_KEY = "gva-roster-v10"; // bumped: generic Username1-13 test roster, same pattern coverage as before
+const LOG_KEY = "gva-export-log-v3"; // bumped alongside the v10 reset — clears the activity log too
 const CYCLE_KEY = "gva-current-cycle-v2"; // bumped: v1 had a "2026 H1" naming that's now retired
 const CYCLES_LIST_KEY = "gva-cycles-list-v2";
 const CYCLE_WINDOW_KEY = "gva-cycle-window-v1";
@@ -241,7 +272,7 @@ const FONT_IMPORT =
 // matching family instead of collapsing to one font.
 const FONT_STACK = "'Quicksand', 'Noto Sans Thai', 'Noto Sans SC', sans-serif";
 
-const STORAGE_KEY = "gva-journey-demo-v2"; // bumped alongside the v1.02 reset — orphans every test answer tied to the old roster
+const STORAGE_KEY = "gva-journey-demo-v3"; // bumped alongside the v10 reset — clears every test answer from the previous roster
 
 /* ========================================================================
    CONTENT — pulled from the GVA form
@@ -1125,14 +1156,11 @@ function TextArea({ value, onChange, readOnly, placeholder, rows = 4 }) {
 function PromptList({ prompts }) {
   if (!prompts?.length) return null;
   return (
-    <ul className="text-sm text-slate-500 mb-2.5 space-y-1.5 leading-relaxed">
+    <div className="text-sm text-slate-700 mb-2.5 space-y-1.5 leading-relaxed">
       {prompts.map((p, i) => (
-        <li key={i} className="flex gap-2">
-          <span className="mt-1.5 w-1 h-1 rounded-full shrink-0" style={{ backgroundColor: BRAND.teal }} />
-          <span>{p}</span>
-        </li>
+        <p key={i}>{p}</p>
       ))}
-    </ul>
+    </div>
   );
 }
 
@@ -1173,6 +1201,22 @@ function RadioGroup({ options, value, onChange, readOnly, renderOption }) {
   );
 }
 
+// Splits "ก้าวข้ามผ่านตัวฉัน (Beyond Me)" into two lines — the Thai term,
+// then the English parenthetical below it — so this column can stay
+// narrow and the other three (which hold the actual descriptive content)
+// get the room instead.
+function StageLabelTwoLine({ label }) {
+  const m = label.match(/^(.*?)\s*(\([^)]*\))$/);
+  if (!m) return <span>{label}</span>;
+  return (
+    <span>
+      {m[1]}
+      <br />
+      {m[2]}
+    </span>
+  );
+}
+
 function StageTable({ stages, title }) {
   const { lang } = useRosterCtx();
   const [open, setOpen] = useState(false);
@@ -1193,8 +1237,8 @@ function StageTable({ stages, title }) {
           <table className="w-full text-xs">
             <thead>
               <tr style={{ backgroundColor: "#F6FBFA" }}>
-                {cols.map((c) => (
-                  <th key={c} className="text-left px-3 py-2 font-semibold whitespace-nowrap" style={{ color: BRAND.deep }}>
+                {cols.map((c, i) => (
+                  <th key={c} className={`text-left px-3 py-2 font-semibold ${i === 0 ? "w-[120px]" : "whitespace-nowrap"}`} style={{ color: BRAND.deep }}>
                     {c}
                   </th>
                 ))}
@@ -1206,14 +1250,14 @@ function StageTable({ stages, title }) {
                 const color = GROWTH_STAGE_COLOR;
                 return (
                 <tr key={s.stage} className="border-t" style={{ borderColor: BRAND.line }}>
-                  <td className="px-3 py-2.5 whitespace-nowrap align-top" style={{ borderLeft: `3px solid ${color}` }}>
-                    <span className="inline-flex items-center gap-1.5 font-semibold" style={{ color }}>
-                      <Icon className="w-3.5 h-3.5" /> {s.stage}
+                  <td className="px-3 py-2.5 align-top" style={{ borderLeft: `3px solid ${color}` }}>
+                    <span className="inline-flex items-start gap-1.5 font-semibold" style={{ color }}>
+                      <Icon className="w-3.5 h-3.5 mt-0.5 shrink-0" /> <StageLabelTwoLine label={s.stage} />
                     </span>
                   </td>
-                  <td className="px-3 py-2.5 align-top text-slate-600 min-w-[180px]">{s.looksLike}</td>
-                  <td className="px-3 py-2.5 align-top text-slate-600 min-w-[180px] italic">"{s.youdSay}"</td>
-                  <td className="px-3 py-2.5 align-top text-slate-600 min-w-[180px]">{s.managerSees}</td>
+                  <td className="px-3 py-2.5 align-top text-slate-600 min-w-[220px]">{s.looksLike}</td>
+                  <td className="px-3 py-2.5 align-top text-slate-600 min-w-[220px] italic">"{s.youdSay}"</td>
+                  <td className="px-3 py-2.5 align-top text-slate-600 min-w-[220px]">{s.managerSees}</td>
                 </tr>
                 );
               })}
@@ -1453,7 +1497,6 @@ function GrowthStagePage({ section, data, setField, role }) {
         locked={mgrLocked}
         waitingForEmployee={waitingForEmployee}
         placeholder={t("What shift have you seen, and how can you support them?", "คุณเห็นการเปลี่ยนแปลงอะไร และจะสนับสนุนเขา/เธอได้อย่างไร?", lang)}
-        topic={bareTopic(t(section.title, th.title, lang))}
       />
     </div>
   );
@@ -1496,6 +1539,41 @@ function boldStarLead(text, lang) {
   );
 }
 
+// Manager-side lead questions follow a handful of fixed sentence shapes
+// across A1-A4/B1/B2 ("Have you seen development reflecting X?", "What
+// change have you seen in X?", "Has the employee done X?"). Try each known
+// prefix/suffix pair and bold whatever sits between them; fall back to
+// plain text for the few prompts (B3, the generic follow-up questions)
+// that don't have a clearly separable topic clause.
+function boldManagerLead(text) {
+  if (!text) return text;
+  const patterns = [
+    { prefix: "คุณมองเห็นความเปลี่ยนแปลงอะไรด้าน", suffix: "ของพนักงาน?" },
+    { prefix: "คุณเห็นการพัฒนาการที่สะท้อนถึง", suffix: "หรือไม่ อย่างไร?" },
+    { prefix: "พนักงานมี", suffix: "หรือไม่ อย่างไร?" },
+    { prefix: "What shift have you seen emerging in the dimension of ", suffix: " in the Employee?" },
+    { prefix: "What development have you seen reflecting ", suffix: "?" },
+    { prefix: "Has the Employee ", suffix: "?" },
+  ];
+  for (const { prefix, suffix } of patterns) {
+    if (!text.startsWith(prefix)) continue;
+    const rest = text.slice(prefix.length);
+    const idx = rest.indexOf(suffix);
+    if (idx === -1) continue;
+    const middle = rest.slice(0, idx).replace(/\s+$/, "");
+    if (!middle) continue;
+    const tail = rest.slice(idx);
+    return (
+      <>
+        {prefix}
+        <strong>{middle}</strong>
+        {tail ? ` ${tail}` : ""}
+      </>
+    );
+  }
+  return text;
+}
+
 function ReflectionPage({ section, data, setField, role }) {
   const { lang } = useRosterCtx();
   const th = SECTIONS_TH[section.id] || {};
@@ -1522,7 +1600,7 @@ function ReflectionPage({ section, data, setField, role }) {
         <TextArea value={data[fields.self]} onChange={(v) => setField(fields.self, v)} readOnly={empRO} rows={5} />
       </Field>
 
-      <ManagerFieldBlock label={t("Manager Feedback", UI_TH.managerFeedback, lang)} prompts={lang === "th" && th.managerPrompts ? th.managerPrompts : section.managerPrompts} value={data[fields.manager]} onChange={(v) => setField(fields.manager, v)} role={role} locked={mgrLocked} waitingForEmployee={waitingForEmployee} topic={bareTopic(t(section.code, th.code, lang))} />
+      <ManagerFieldBlock label={t("Manager Feedback", UI_TH.managerFeedback, lang)} prompts={lang === "th" && th.managerPrompts ? th.managerPrompts : section.managerPrompts} value={data[fields.manager]} onChange={(v) => setField(fields.manager, v)} role={role} locked={mgrLocked} waitingForEmployee={waitingForEmployee} />
     </div>
   );
 }
@@ -1733,7 +1811,7 @@ function CommitBlock({ empChecked, empDate, mgrChecked, mgrDate, onEmp, onMgr, r
   );
 }
 
-function ManagerFieldBlock({ label, prompts, value, onChange, role, placeholder, rows = 4, locked, waitingForEmployee, topic }) {
+function ManagerFieldBlock({ label, prompts, value, onChange, role, placeholder, rows = 4, locked, waitingForEmployee }) {
   const { lang } = useRosterCtx();
   if (role === "employee") {
     if (!value) return null; // hidden entirely until the manager has actually responded
@@ -1742,6 +1820,8 @@ function ManagerFieldBlock({ label, prompts, value, onChange, role, placeholder,
         <p className="text-sm font-medium mb-1.5 flex items-center gap-1.5" style={{ color: BRAND.deep }}>
           <UsersIcon className="w-3.5 h-3.5" style={{ color: BRAND.teal }} /> {label}
         </p>
+        <p className="text-sm text-slate-700 mb-2">{boldManagerLead(prompts?.[0])}</p>
+        {prompts?.length > 1 && <PromptList prompts={prompts.slice(1)} />}
         <div className="rounded-xl px-3.5 py-3 text-sm leading-relaxed" style={{ backgroundColor: "#EAF7F6", border: `1px solid ${BRAND.teal}`, color: "#0B3B3F" }}>
           {value}
         </div>
@@ -1763,14 +1843,8 @@ function ManagerFieldBlock({ label, prompts, value, onChange, role, placeholder,
   }
   return (
     <Field label={label} required>
-      {topic ? (
-        <>
-          <p className="text-sm text-slate-700 mb-2">{boldPhrase(prompts?.[0], topic)}</p>
-          {prompts?.length > 1 && <PromptList prompts={prompts.slice(1)} />}
-        </>
-      ) : (
-        <PromptList prompts={prompts} />
-      )}
+      <p className="text-sm text-slate-700 mb-2">{boldManagerLead(prompts?.[0])}</p>
+      {prompts?.length > 1 && <PromptList prompts={prompts.slice(1)} />}
       <TextArea value={value} onChange={onChange} readOnly={role !== "manager" || !!locked} placeholder={placeholder} rows={rows} />
     </Field>
   );
@@ -1914,13 +1988,14 @@ function B4Page({ data, setField, role }) {
   return (
     <div>
       <SectionHeader pillar="Overall" code={t("B4 · Overall", "B4 · ภาพรวม", lang)} />
-      <Field label={t("Any other reflections to yourself", th.selfOther, lang)} required>
+      <Field label={t("By Employee", "โดยพนักงาน", lang)} required>
+        <p className="text-sm text-slate-700 mb-2">{t("Any other reflections to yourself", th.selfOther, lang)}</p>
         <TextArea value={data.b4_self} onChange={(v) => setField("b4_self", v)} readOnly={role !== "employee" || selfLocked} rows={3} />
       </Field>
 
       <ManagerFieldBlock
-        label={t("Any other feedback for the Employee", th.managerOther, lang)}
-        prompts={[]}
+        label={t("Manager Feedback", UI_TH.managerFeedback, lang)}
+        prompts={[t("Any other feedback for the Employee", th.managerOther, lang)]}
         value={data.b4_manager}
         onChange={(v) => setField("b4_manager", v)}
         role={role}
@@ -2167,6 +2242,7 @@ function LoginScreen({ scope, onLogin }) {
         match = data.user;
       } else {
         setBusy(false);
+        const body = await res.json().catch(() => ({}));
         if (res.status === 503) {
           setError(t(
             "The server hasn't finished setting up yet (no roster found). Reload this page once and try again — if it keeps happening, the Redis connection may not be configured in Vercel yet.",
@@ -2179,8 +2255,16 @@ function LoginScreen({ scope, onLogin }) {
             "เซิร์ฟเวอร์ปฏิเสธคำขอนี้ (ไม่ได้รับอนุญาต) — มักเกิดจากปัญหาการตั้งค่า (API secret ไม่ตรงกัน) ไม่ใช่รหัสผ่านผิด กรุณาตรวจสอบการตั้งค่าระบบ",
             lang
           ));
+        } else if (body.envVarsFound) {
+          setError(
+            `Server error (${res.status}): ${body.error || "unknown"}. Redis env vars actually present on the server: ${body.envVarsFound.length ? body.envVarsFound.join(", ") : "none found"}.`
+          );
         } else {
-          setError(t(`Server error (status ${res.status}). Please try again, or check the Vercel function logs for /api/login.`, `เซิร์ฟเวอร์ขัดข้อง (สถานะ ${res.status}) กรุณาลองใหม่ หรือตรวจสอบ Vercel function logs ของ /api/login`, lang));
+          setError(t(
+            `Server error (${res.status})${body.detail ? `: ${body.detail}` : ""}. Please try again, or check the Vercel function logs for /api/login.`,
+            `เซิร์ฟเวอร์ขัดข้อง (สถานะ ${res.status})${body.detail ? `: ${body.detail}` : ""} กรุณาลองใหม่ หรือตรวจสอบ Vercel function logs ของ /api/login`,
+            lang
+          ));
         }
         return;
       }
@@ -2249,7 +2333,7 @@ function LoginScreen({ scope, onLogin }) {
               <label className="text-xs font-medium mb-1 block" style={{ color: BRAND.deep }}>
                 {t("Username", "ชื่อผู้ใช้", lang)}
               </label>
-              <TextInput value={username} onChange={setUsername} placeholder={isAdminSite ? "Master01" : "Lalisaman"} />
+              <TextInput value={username} onChange={setUsername} placeholder={isAdminSite ? "" : "Lalisaman"} />
               {!isAdminSite && (
                 <p className="text-xs text-slate-400 mt-1" style={{ fontFamily: FONT_STACK }}>
                   {t(
@@ -2360,7 +2444,6 @@ function GatewayPage() {
           </div>
           <div className="flex-1">
             <p className="text-sm font-medium" style={{ color: BRAND.red }}>tpcgvajourney/admin</p>
-            <p className="text-xs text-slate-500">{t("Master Admin only — full visibility across all Companies", "สำหรับ Master Admin เท่านั้น — มองเห็นข้อมูลได้ทุกบริษัท", lang)}</p>
           </div>
           <ChevronRight className="w-4 h-4 shrink-0" style={{ color: BRAND.red }} />
         </button>
