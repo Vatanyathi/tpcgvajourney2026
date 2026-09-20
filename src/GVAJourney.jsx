@@ -2232,9 +2232,13 @@ function LoginScreen({ scope, onLogin }) {
     setError("");
     let match = null;
     try {
+      const headers = { "Content-Type": "application/json" };
+      if (import.meta.env.VITE_API_SECRET) {
+        headers["x-api-secret"] = import.meta.env.VITE_API_SECRET;
+      }
       const res = await fetch("/api/login", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers,
         body: JSON.stringify({ username: username.trim(), password: password.trim() }),
       });
       if (res.ok) {
@@ -3758,9 +3762,13 @@ function PeopleManager({ admin, scopeBUs, viewOnly }) {
     await persist(next);
     if (newPassword) {
       try {
+        const headers = { "Content-Type": "application/json" };
+        if (import.meta.env.VITE_API_SECRET) {
+          headers["x-api-secret"] = import.meta.env.VITE_API_SECRET;
+        }
         await fetch("/api/set-passwords", {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
+          headers,
           body: JSON.stringify({ updates: [{ id: safePerson.id, newPassword }] }),
         });
       } catch (e) {
@@ -3860,9 +3868,13 @@ function PeopleManager({ admin, scopeBUs, viewOnly }) {
       await persist(next);
       if (pendingPasswords.length) {
         try {
+          const headers = { "Content-Type": "application/json" };
+          if (import.meta.env.VITE_API_SECRET) {
+            headers["x-api-secret"] = import.meta.env.VITE_API_SECRET;
+          }
           await fetch("/api/set-passwords", {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
+            headers,
             body: JSON.stringify({ updates: pendingPasswords }),
           });
         } catch (e) {
