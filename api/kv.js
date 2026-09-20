@@ -9,14 +9,22 @@ import { Redis } from "@upstash/redis";
 
 const REDIS_URL =
   process.env.KV_REST_API_URL ||
+  process.env.KV_URL ||
   process.env.UPSTASH_REDIS_REST_URL ||
+  process.env.UPSTASH_REDIS_URL ||
   process.env.REDIS_REST_API_URL ||
-  process.env.STORAGE_KV_REST_API_URL;
+  process.env.REDIS_URL ||
+  process.env.STORAGE_KV_REST_API_URL ||
+  process.env.STORAGE_KV_URL;
 const REDIS_TOKEN =
   process.env.KV_REST_API_TOKEN ||
+  process.env.KV_TOKEN ||
   process.env.UPSTASH_REDIS_REST_TOKEN ||
+  process.env.UPSTASH_REDIS_TOKEN ||
   process.env.REDIS_REST_API_TOKEN ||
-  process.env.STORAGE_KV_REST_API_TOKEN;
+  process.env.REDIS_TOKEN ||
+  process.env.STORAGE_KV_REST_API_TOKEN ||
+  process.env.STORAGE_KV_TOKEN;
 
 const redis = REDIS_URL && REDIS_TOKEN ? new Redis({ url: REDIS_URL, token: REDIS_TOKEN }) : null;
 
