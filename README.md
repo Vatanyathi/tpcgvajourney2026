@@ -1,12 +1,13 @@
-# TPC Growth & Value-Add Journey — v1.02c deployable build
+# TPC Growth & Value-Add Journey — v1.02d deployable build
 
-This is a synced copy of everything built through v1.02c in the Claude
-session — the Track A/B content rewrite matching your Thai reference
-document, the redesigned growth-stage selector, the manager-question
-bolding/styling fixes, the two-line stage-table labels, and the
-Username1-13 test roster (plus Punjamaporn/Charinee as P&O Admins) —
-wired to a real backend so anyone with the link can use it, no Claude
-account needed.
+This is the v1.02d release of the app, including the live auth fix for
+Vercel deployments: the browser now sends the shared API secret on login
+and password-update calls, the Redis env detection accepts the common
+Upstash/Vercel variable names, and the seeded admin login remains usable
+for the default Master01-03 accounts. This release also keeps the
+Track A/B content rewrite, the redesigned growth-stage selector, the
+manager-question styling fixes, and the general production-ready
+behavior for the live app.
 
 ## How this works
 
